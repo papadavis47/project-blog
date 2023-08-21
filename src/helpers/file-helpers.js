@@ -15,7 +15,6 @@ export async function getBlogPostList() {
     blogPosts.push({
       slug: fileName.replace('.mdx', ''),
       ...frontmatter,
-      id: crypto.randomUUID(),
     });
   }
 
