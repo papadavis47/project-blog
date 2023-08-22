@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import React from 'react';
 import path from 'path';
 import matter from 'gray-matter';
 
@@ -21,13 +22,13 @@ export async function getBlogPostList() {
   return blogPosts.sort((p1, p2) => (p1.publishedOn < p2.publishedOn ? 1 : -1));
 }
 
-export async function loadBlogPost(slug) {
+export const loadBlogPost = React.cache(async function loadBlogPost(slug) {
   const rawContent = await readFile(`/content/${slug}.mdx`);
 
   const { data: frontmatter, content } = matter(rawContent);
 
   return { frontmatter, content };
-}
+});
 
 function readFile(localPath) {
   return fs.readFile(path.join(process.cwd(), localPath), 'utf8');
